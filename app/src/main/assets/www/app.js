@@ -1,5 +1,6 @@
 const starterChannels = [
   { name: 'TRT 1', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
+  { name: 'TRT 2', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Kanal D', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Show TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'ATV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -14,6 +15,7 @@ const starterChannels = [
   { name: 'A Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TGRT Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TRT Spor', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
+  { name: 'TRT Belgesel', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'A Spor', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Sports TV', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TRT Çocuk', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -21,6 +23,7 @@ const starterChannels = [
   { name: 'Minika GO', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Kral Pop TV', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Dream Türk', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
+  { name: 'TRT Müzik', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: '24 TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Beyaz TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Tele 1', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -33,7 +36,7 @@ const starterChannels = [
   { name: 'Ekotürk', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TRT Avaz', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TRT Türk', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT World', category: 'News', language: 'English', source: '', note: 'Official stream URL required' },
+  { name: 'TRT World', category: 'News', language: 'English', source: 'https://tv-trtworld.medya.trt.com.tr/master.m3u8', note: 'Public internet HLS stream', sourceLabel: 'TRT public web stream' },
   { name: 'Kanal 24', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Dost TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Semerkand TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -45,6 +48,34 @@ const starterChannels = [
   { name: 'Bengütürk TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Akit TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Ulusal Kanal', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' }
+];
+
+const publicStreamOverrides = {
+  'TRT 1': 'https://tv-trt1.medya.trt.com.tr/master.m3u8',
+  'TRT 2': 'https://tv-trt2.medya.trt.com.tr/master.m3u8',
+  'TRT Haber': 'https://tv-trthaber.medya.trt.com.tr/master.m3u8',
+  'TRT Spor': 'https://tv-trtspor1.medya.trt.com.tr/master.m3u8',
+  'TRT Belgesel': 'https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8',
+  'TRT Çocuk': 'https://tv-trtcocuk.medya.trt.com.tr/master.m3u8',
+  'TRT Türk': 'https://tv-trtturk.medya.trt.com.tr/master.m3u8',
+  'TRT Avaz': 'https://tv-trtavaz.medya.trt.com.tr/master.m3u8',
+  'TRT Müzik': 'https://tv-trtmuzik.medya.trt.com.tr/master.m3u8',
+  'TRT World': 'https://tv-trtworld.medya.trt.com.tr/master.m3u8'
+};
+
+starterChannels.forEach((channel) => {
+  const stream = publicStreamOverrides[channel.name];
+  if (!stream) return;
+  channel.source = stream;
+  channel.note = 'Public internet HLS stream';
+  channel.sourceLabel = 'TRT public web stream';
+});
+
+const remotePlaylists = [
+  {
+    label: 'IPTV-Org Turkey public playlist',
+    url: 'https://iptv-org.github.io/iptv/countries/tr.m3u'
+  }
 ];
 
 const state = {
@@ -70,6 +101,8 @@ const streamUrl = document.querySelector('#stream-url');
 const playlistForm = document.querySelector('#playlist-form');
 const playlistFile = document.querySelector('#playlist-file');
 const favoriteButton = document.querySelector('#favorite-button');
+const remotePlaylistButton = document.querySelector('#remote-playlist-button');
+const remotePlaylistStatus = document.querySelector('#remote-playlist-status');
 const signalLabel = document.querySelector('#signal-label');
 let hlsInstance = null;
 
@@ -147,7 +180,10 @@ function clearPlayer() {
 function selectChannel(channel) {
   state.selectedChannel = channel;
   playerTitle.textContent = channel.name;
-  channelMeta.textContent = `${channel.category} • ${channel.language} • ${channel.source ? 'Live stream loaded' : 'Paste or import an official stream URL to watch.'}`;
+  const streamStatus = channel.source
+    ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}`
+    : 'Paste, import, or fetch an official/public stream URL to watch.';
+  channelMeta.textContent = `${channel.category} • ${channel.language} • ${streamStatus}`;
   favoriteButton.disabled = false;
   favoriteButton.setAttribute('aria-pressed', String(state.favorites.has(channel.name)));
   favoriteButton.textContent = state.favorites.has(channel.name) ? '★ Favorite' : '☆ Favorite';
@@ -176,7 +212,14 @@ function upsertChannel(channel) {
   return channel;
 }
 
-function parseM3U(text) {
+function getM3UAttribute(line, attribute) {
+  const quoted = line.match(new RegExp(`${attribute}=\"([^\"]+)\"`, 'i'));
+  if (quoted) return quoted[1];
+  const unquoted = line.match(new RegExp(`${attribute}=([^\\s,]+)`, 'i'));
+  return unquoted?.[1] || '';
+}
+
+function parseM3U(text, defaults = {}) {
   const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
   const imported = [];
 
@@ -185,18 +228,26 @@ function parseM3U(text) {
     if (!line.startsWith('#EXTINF')) continue;
 
     const name = line.split(',').pop()?.trim() || `Imported channel ${imported.length + 1}`;
-    const groupMatch = line.match(/group-title="([^"]+)"/i);
-    const logoMatch = line.match(/tvg-logo="([^"]+)"/i);
-    const source = lines[index + 1]?.startsWith('#') ? '' : lines[index + 1];
+    const groupTitle = getM3UAttribute(line, 'group-title');
+    const logo = getM3UAttribute(line, 'tvg-logo');
+    let source = '';
+
+    for (let sourceIndex = index + 1; sourceIndex < lines.length; sourceIndex += 1) {
+      if (lines[sourceIndex].startsWith('#EXTINF')) break;
+      if (lines[sourceIndex].startsWith('#')) continue;
+      source = lines[sourceIndex];
+      break;
+    }
 
     if (source) {
       imported.push({
         name,
-        category: groupMatch?.[1] || 'Imported',
-        language: 'Playlist',
-        logo: logoMatch?.[1] || '',
+        category: groupTitle || defaults.category || 'Imported',
+        language: defaults.language || 'Playlist',
+        logo,
         source,
-        note: 'Imported legal stream'
+        note: defaults.note || 'Imported legal stream',
+        sourceLabel: defaults.sourceLabel || 'M3U playlist'
       });
     }
   }
@@ -232,6 +283,43 @@ streamForm.addEventListener('submit', (event) => {
   streamForm.reset();
 });
 
+
+async function loadRemotePlaylists() {
+  remotePlaylistButton.disabled = true;
+  remotePlaylistStatus.textContent = 'Loading public internet streams…';
+  setSignal('Loading web');
+
+  try {
+    const importedGroups = await Promise.all(remotePlaylists.map(async (playlist) => {
+      const response = await fetch(playlist.url, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`${playlist.label} returned ${response.status}`);
+      }
+      const text = await response.text();
+      return parseM3U(text, {
+        category: 'Internet TV',
+        language: 'Turkish',
+        note: `Public internet stream from ${playlist.label}`,
+        sourceLabel: playlist.label
+      });
+    }));
+
+    const imported = importedGroups.flat();
+    imported.forEach(upsertChannel);
+    renderChannels();
+    remotePlaylistStatus.textContent = imported.length
+      ? `Added/updated ${imported.length} public internet streams.`
+      : 'No playable streams were found in the public playlist.';
+    setSignal(imported.length ? `${imported.length} web` : 'No streams');
+    if (imported[0]) selectChannel(imported[0]);
+  } catch (error) {
+    remotePlaylistStatus.textContent = `Could not load streams: ${error.message}. Try again later or paste an M3U URL manually.`;
+    setSignal('Web load error');
+  } finally {
+    remotePlaylistButton.disabled = false;
+  }
+}
+
 playlistForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const file = playlistFile.files?.[0];
@@ -248,6 +336,8 @@ playlistForm.addEventListener('submit', async (event) => {
   if (imported[0]) selectChannel(imported[0]);
   playlistForm.reset();
 });
+
+remotePlaylistButton.addEventListener('click', loadRemotePlaylists);
 
 favoriteButton.addEventListener('click', () => {
   if (!state.selectedChannel) return;

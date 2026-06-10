@@ -197,6 +197,7 @@ h1 { margin-bottom: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); }
 .channel-badge,
 .tool-card p,
 .tool-card li,
+.tool-card small,
 .hero p,
 #channel-meta { color: var(--muted); }
 
@@ -307,6 +308,12 @@ video {
 }
 
 .connection-card ul { padding-left: 1.1rem; }
+
+.internet-card small {
+  display: block;
+  margin-top: 0.75rem;
+  line-height: 1.45;
+}
 
 .sr-only {
   position: absolute;
