@@ -41,6 +41,15 @@ The debug APK will be written to `app/build/outputs/apk/debug/app-debug.apk`.
 The workflow at `.github/workflows/android-apk.yml` builds the debug APK on pushes, pull requests, and manual `workflow_dispatch` runs, then uploads `turksat-tv-hub-debug-apk` as an artifact.
 
 
+## Android home screen mode
+
+The Android app can appear in the system's default Home app picker because `MainActivity` declares the `HOME` and `DEFAULT` launcher categories. When selected as the default home screen, the app keeps the TV player visible and overlays a small control column with:
+
+- `+` to raise media volume,
+- `−` to lower media volume,
+- `Apps` to open an app drawer listing installed launcher apps with their default app icons above each app name.
+
+
 ## Public internet streams
 
 The app includes direct public TRT HLS entries where known and a **Load public streams** button that fetches the IPTV-Org Turkey playlist (`https://iptv-org.github.io/iptv/countries/tr.m3u`) at runtime. These internet streams can change, go offline, or be geo-blocked by the broadcaster/CDN. Only add streams that are intentionally public or that you have permission to watch.
