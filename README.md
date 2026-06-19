@@ -23,31 +23,23 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
-## Android APK build
+## GitHub Pages website
 
-This repository now includes a native Android wrapper around the web TV app. The Android app loads the static player from `app/src/main/assets/www/index.html` inside a WebView, enables JavaScript/local storage for playlist features, and requests internet access for legal live streams.
+This project is now ready to publish as a plain static GitHub Pages website. The live web app uses the root files directly:
 
-### Build locally
+- `index.html` for the page markup,
+- `styles.css` for the same TV-player look and responsive layout,
+- `app.js` for channel browsing, favorites, imports, public streams, and playback,
+- `assets/logo.svg` for the app icon/poster artwork.
 
-```bash
-gradle --no-daemon assembleDebug
-```
+No APK build is required for the website. The GitHub Pages workflow at `.github/workflows/github-pages.yml` uploads the repository as a static site and deploys it with GitHub Pages.
 
-The debug APK will be written to `app/build/outputs/apk/debug/app-debug.apk`.
+### Publish on GitHub Pages
 
-### Build on GitHub Actions
-
-The workflow at `.github/workflows/android-apk.yml` builds the debug APK on pushes, pull requests, and manual `workflow_dispatch` runs, then uploads `turksat-tv-hub-debug-apk` as an artifact.
-
-## Android home screen mode
-
-The Android app can appear in the system's default Home app picker because `MainActivity` declares the `HOME` and `DEFAULT` launcher categories. When selected as the default home screen, the app keeps the TV player visible and overlays a small control column with:
-
-- translucent liquid `+` and `−` buttons on the right to raise and lower media volume while the player is full-screen,
-- translucent liquid previous and next channel buttons on the left to step through playable streams,
-- `Apps` to open an app drawer listing installed launcher apps with their default app icons above each app name.
-
-The web media player also includes its own liquid full-screen, previous/next channel, and volume controls inside the video frame so the controls stay visible over the stream while still letting the picture show through.
+1. Push this repository to GitHub.
+2. In the repository settings, open **Pages**.
+3. Set **Build and deployment** to **GitHub Actions**.
+4. Push to `main` or `master`, or run the **Deploy GitHub Pages site** workflow manually.
 
 ## Public internet streams
 

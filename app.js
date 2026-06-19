@@ -18,6 +18,16 @@ const starterChannels = [
   { name: 'TRT Belgesel', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'A Spor', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Sports TV', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
+  { name: 'beIN SPORTS 1', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS 2', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS 3', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS 4', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS 5', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS MAX 1', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS MAX 2', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
+  { name: 'beIN SPORTS HABER', category: 'Sports', language: 'Turkish', source: '', note: 'Official public stream URL required' },
+  { name: 'beIN SPORTS XTRA', category: 'Sports', language: 'English', source: '', note: 'Free public internet live stream' },
+  { name: 'beIN SPORTS XTRA en Español', category: 'Sports', language: 'Spanish', source: '', note: 'Free public internet live stream' },
   { name: 'TRT Çocuk', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Minika Çocuk', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Minika GO', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -57,15 +67,17 @@ const publicStreamOverrides = {
   'TRT Spor': 'https://tv-trtspor1.medya.trt.com.tr/master.m3u8',
   'TRT Çocuk': 'https://tv-trtcocuk.medya.trt.com.tr/master.m3u8',
   'TRT Müzik': 'https://tv-trtmuzik.medya.trt.com.tr/master.m3u8',
-  'TRT World': 'https://tv-trtworld.medya.trt.com.tr/master.m3u8'
+  'TRT World': 'https://tv-trtworld.medya.trt.com.tr/master.m3u8',
+  'beIN SPORTS XTRA': 'https://bein-xtra-bein.amagi.tv/playlist.m3u8',
+  'beIN SPORTS XTRA en Español': 'https://bein-esp-klowdtv.amagi.tv/playlist.m3u8'
 };
 
 starterChannels.forEach((channel) => {
   const stream = publicStreamOverrides[channel.name];
   if (!stream) return;
   channel.source = stream;
-  channel.note = 'Public internet HLS stream';
-  channel.sourceLabel = 'TRT public web stream';
+  channel.note = channel.name.startsWith('beIN SPORTS XTRA') ? 'Free public internet HLS stream' : 'Public internet HLS stream';
+  channel.sourceLabel = channel.name.startsWith('beIN SPORTS XTRA') ? 'beIN SPORTS XTRA public FAST stream' : 'TRT public web stream';
 });
 
 const remotePlaylists = [{ label: 'IPTV-Org Turkey public playlist', url: 'https://iptv-org.github.io/iptv/countries/tr.m3u' }];
