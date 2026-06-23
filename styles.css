@@ -254,3 +254,75 @@
     display: none;
   }
 }
+
+/* Clear glass controls: transparent, sharp, and intentionally not blurred. */
+button,
+.chip,
+.ghost-button,
+.tool-card button,
+.channel-item,
+.youtube-button,
+.liquid-button {
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.11);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 12px 30px rgba(0, 0, 0, 0.24);
+  text-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+button:hover,
+button:focus-visible,
+.chip:hover,
+.chip:focus-visible,
+.ghost-button:hover,
+.ghost-button:focus-visible,
+.tool-card button:hover,
+.tool-card button:focus-visible,
+.channel-item:hover,
+.channel-item:focus-visible,
+.youtube-button:hover,
+.youtube-button:focus-visible,
+.liquid-button:hover,
+.liquid-button:focus-visible,
+.channel-item.is-selected,
+.chip.is-active {
+  border-color: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 14px 34px rgba(0, 0, 0, 0.28);
+  outline: none;
+}
+
+.chip.is-active,
+.tool-card button {
+  font-weight: 800;
+}
+
+.liquid-controls {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.liquid-button:hover,
+.liquid-button:focus-visible {
+  transform: scale(1.04);
+}
+
+.fullscreen-button:hover,
+.fullscreen-button:focus-visible {
+  transform: translateX(-50%) scale(1.04);
+}
+
+.now-playing,
+.player-card:fullscreen .now-playing,
+.player-card.is-fullscreen .now-playing {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 18px 42px rgba(0, 0, 0, 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
