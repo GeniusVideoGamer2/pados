@@ -1,4 +1,16 @@
+const youtubeChannel = {
+  name: 'GameX T U R K',
+  category: 'YouTube',
+  language: 'Turkish',
+  source: 'https://www.youtube.com/@GameX_T_U_R_K/videos',
+  note: 'YouTube channel videos (internet required)',
+  sourceLabel: 'YouTube channel',
+  type: 'youtube',
+  embed: 'https://www.youtube.com/embed?listType=user_uploads&list=GameX_T_U_R_K'
+};
+
 const starterChannels = [
+  youtubeChannel,
   { name: 'TRT 1', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'TRT 2', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
   { name: 'Kanal D', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
@@ -88,6 +100,8 @@ const channelCount = document.querySelector('#channel-count');
 const searchInput = document.querySelector('#channel-search');
 const chips = document.querySelectorAll('.chip');
 const player = document.querySelector('#tv-player');
+const youtubePanel = document.querySelector('#youtube-panel');
+const youtubeOpenButton = document.querySelector('#youtube-open-button');
 const playerEmpty = document.querySelector('#player-empty');
 const playerTitle = document.querySelector('#player-title');
 const channelMeta = document.querySelector('#channel-meta');
@@ -155,6 +169,13 @@ function getPlayableChannels() {
   return state.channels.filter((channel) => channel.source);
 }
 
+function toggleYoutubePanel(channel) {
+  const isYoutube = channel?.type === 'youtube';
+  youtubePanel.classList.toggle('is-hidden', !isYoutube);
+  player.classList.toggle('is-hidden', isYoutube);
+  if (isYoutube) youtubeOpenButton.href = channel.source;
+}
+
 function selectAdjacentChannel(direction) {
   const playableChannels = getPlayableChannels();
   if (!playableChannels.length) {
@@ -197,12 +218,14 @@ async function togglePlayerFullscreen() {
 function selectChannel(channel) {
   state.selectedChannel = channel;
   playerTitle.textContent = channel.name;
-  const streamStatus = channel.source ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}` : 'Paste, import, or fetch an official/public stream URL to watch.';
+  toggleYoutubePanel(channel);
+  const streamStatus = channel.type === 'youtube' ? 'Open the internet channel page to see every uploaded video.' : channel.source ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}` : 'Paste, import, or fetch an official/public stream URL to watch.';
   channelMeta.textContent = `${channel.category} • ${channel.language} • ${streamStatus}`;
   favoriteButton.disabled = false;
   favoriteButton.setAttribute('aria-pressed', String(state.favorites.has(channel.name)));
   favoriteButton.textContent = state.favorites.has(channel.name) ? '★ Favorite' : '☆ Favorite';
-  if (channel.source) { playSource(channel.source); playerEmpty.classList.add('is-hidden'); setSignal('Streaming'); }
+  if (channel.type === 'youtube') { clearPlayer(); playerEmpty.classList.add('is-hidden'); setSignal(navigator.onLine ? 'YouTube ready' : 'Offline'); }
+  else if (channel.source) { playSource(channel.source); playerEmpty.classList.add('is-hidden'); setSignal('Streaming'); }
   else { clearPlayer(); playerEmpty.classList.remove('is-hidden'); setSignal('Needs URL'); }
   renderChannels();
 }
