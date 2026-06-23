@@ -1,12 +1,12 @@
 const youtubeChannel = {
-  name: 'GameX T U R K',
+  name: 'YouTube',
   category: 'YouTube',
   language: 'Turkish',
-  source: 'https://www.youtube.com/@GameX_T_U_R_K/videos',
-  note: 'YouTube channel videos (internet required)',
+  source: 'https://www.youtube.com/@GameX_T_U_R_K',
+  note: 'Interactive GameX T U R K channel site (internet required)',
   sourceLabel: 'YouTube channel',
   type: 'youtube',
-  embed: 'https://www.youtube.com/embed?listType=user_uploads&list=GameX_T_U_R_K'
+  embed: 'https://www.youtube.com/@GameX_T_U_R_K'
 };
 
 const starterChannels = [
@@ -102,6 +102,7 @@ const chips = document.querySelectorAll('.chip');
 const player = document.querySelector('#tv-player');
 const youtubePanel = document.querySelector('#youtube-panel');
 const youtubeOpenButton = document.querySelector('#youtube-open-button');
+const youtubeFrame = document.querySelector('#youtube-frame');
 const playerEmpty = document.querySelector('#player-empty');
 const playerTitle = document.querySelector('#player-title');
 const channelMeta = document.querySelector('#channel-meta');
@@ -173,7 +174,10 @@ function toggleYoutubePanel(channel) {
   const isYoutube = channel?.type === 'youtube';
   youtubePanel.classList.toggle('is-hidden', !isYoutube);
   player.classList.toggle('is-hidden', isYoutube);
-  if (isYoutube) youtubeOpenButton.href = channel.source;
+  if (isYoutube) {
+    youtubeOpenButton.href = channel.source;
+    youtubeFrame.src = channel.embed || channel.source;
+  }
 }
 
 function selectAdjacentChannel(direction) {
@@ -219,7 +223,7 @@ function selectChannel(channel) {
   state.selectedChannel = channel;
   playerTitle.textContent = channel.name;
   toggleYoutubePanel(channel);
-  const streamStatus = channel.type === 'youtube' ? 'Open the internet channel page to see every uploaded video.' : channel.source ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}` : 'Paste, import, or fetch an official/public stream URL to watch.';
+  const streamStatus = channel.type === 'youtube' ? 'Interact with the GameX T U R K YouTube channel site in the TV player.' : channel.source ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}` : 'Paste, import, or fetch an official/public stream URL to watch.';
   channelMeta.textContent = `${channel.category} • ${channel.language} • ${streamStatus}`;
   favoriteButton.disabled = false;
   favoriteButton.setAttribute('aria-pressed', String(state.favorites.has(channel.name)));
