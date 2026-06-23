@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GameX T U R K Live TV Hub</title>
-    <meta name="description" content="A GitHub Pages web TV interface for organizing channels, opening GameX T U R K YouTube videos, importing legal IPTV playlists, and playing live HLS streams." />
+    <title>YouTube Live TV Hub</title>
+    <meta name="description" content="A GitHub Pages web TV interface for organizing channels, opening the GameX T U R K YouTube channel, importing legal IPTV playlists, and playing live HLS streams." />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -13,7 +14,7 @@
       <aside class="sidebar" aria-label="Channel browser">
         <header class="brand-card">
           <img src="assets/logo.svg" alt="Mersin İstek Okulları logo" class="brand-logo" />
-          <div><p class="eyebrow">GitHub Pages IPTV Player</p><h1>GameX T U R K TV Hub</h1></div>
+          <div><p class="eyebrow">GitHub Pages IPTV Player</p><h1>YouTube TV Hub</h1></div>
         </header>
         <section class="search-panel" aria-labelledby="search-title">
           <h2 id="search-title">Find channels</h2>
@@ -46,8 +47,14 @@
         <section class="player-card" aria-labelledby="player-title">
           <div class="player-frame">
             <video id="tv-player" controls playsinline poster="assets/logo.svg"></video>
-            <div id="youtube-panel" class="youtube-panel is-hidden" aria-label="GameX T U R K YouTube channel"><img src="assets/logo.svg" alt="" /><h3>GameX T U R K on YouTube</h3><p>Internet connection detected? Open the channel videos page to browse every upload directly on YouTube.</p><a id="youtube-open-button" class="youtube-button" href="https://www.youtube.com/@GameX_T_U_R_K/videos" target="_blank" rel="noopener noreferrer">Open all channel videos</a></div>
-            <div id="player-empty" class="player-empty"><img src="assets/logo.svg" alt="" /><p>Select a channel, open GameX T U R K videos, paste an HLS/M3U8 URL, or import a legal playlist.</p></div>
+            <div id="youtube-panel" class="youtube-panel is-hidden" aria-label="Interactive YouTube channel site">
+              <div class="youtube-browser" role="group" aria-label="YouTube-style browser for GameX T U R K">
+                <div class="youtube-topbar"><span class="youtube-mark">▶</span><strong>YouTube</strong><span class="youtube-search">Search</span><a id="youtube-open-button" class="youtube-button" href="https://www.youtube.com/@GameX_T_U_R_K" target="_blank" rel="noopener noreferrer">Open channel</a></div>
+                <iframe id="youtube-frame" title="GameX T U R K YouTube channel" src="https://www.youtube.com/@GameX_T_U_R_K" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="youtube-fallback"><img src="assets/logo.svg" alt="" /><h3>YouTube channel</h3><p>Browse the GameX T U R K channel inside this TV slot. If YouTube blocks embedded channel pages on your browser, use the Open channel button.</p></div>
+              </div>
+            </div>
+            <div id="player-empty" class="player-empty"><img src="assets/logo.svg" alt="" /><p>Select the YouTube channel, paste an HLS/M3U8 URL, or import a legal playlist.</p></div>
             <div class="liquid-controls liquid-channel-controls" aria-label="Channel controls">
               <button id="previous-channel-button" class="liquid-button" type="button" aria-label="Previous channel">‹</button>
               <button id="next-channel-button" class="liquid-button" type="button" aria-label="Next channel">›</button>
