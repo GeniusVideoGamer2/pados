@@ -323,3 +323,47 @@ favoriteButton.addEventListener('click', () => {
 player.addEventListener('error', () => { setSignal('Stream error'); channelMeta.textContent = 'The stream could not be played by this browser. Check that the URL is legal, online, and CORS-enabled.'; });
 favoriteButton.disabled = true;
 renderChannels();
+
+function armBootGlitchAudio() {
+  const bootScreen = document.querySelector('.boot-screen');
+  if (!bootScreen || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let started = false;
+  const startAudio = () => {
+    if (started) return;
+    started = true;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const context = new AudioContext();
+    const master = context.createGain();
+    master.gain.value = 0.045;
+    master.connect(context.destination);
+
+    const scheduleTone = (time, frequency, duration, type = 'square', gain = 0.08) => {
+      const oscillator = context.createOscillator();
+      const envelope = context.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, time);
+      oscillator.frequency.exponentialRampToValueAtTime(Math.max(30, frequency * 0.32), time + duration);
+      envelope.gain.setValueAtTime(0.0001, time);
+      envelope.gain.exponentialRampToValueAtTime(gain, time + 0.015);
+      envelope.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+      oscillator.connect(envelope);
+      envelope.connect(master);
+      oscillator.start(time);
+      oscillator.stop(time + duration + 0.04);
+    };
+
+    const now = context.currentTime + 0.04;
+    [0, 0.11, 0.24, 0.38, 5.1, 5.22, 5.34, 7.7, 7.82, 10.8, 11.05].forEach((offset, index) => {
+      scheduleTone(now + offset, index % 2 ? 960 : 1450, index > 6 ? 0.18 : 0.09, index % 3 ? 'sawtooth' : 'square');
+    });
+    scheduleTone(now + 5.55, 170, 0.75, 'sawtooth', 0.11);
+    scheduleTone(now + 8.05, 78, 0.55, 'square', 0.1);
+    scheduleTone(now + 12.1, 520, 0.4, 'triangle', 0.07);
+    window.setTimeout(() => context.close(), 14500);
+  };
+  bootScreen.addEventListener('pointerdown', startAudio, { once: true });
+  window.addEventListener('keydown', startAudio, { once: true });
+}
+
+armBootGlitchAudio();
