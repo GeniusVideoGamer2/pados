@@ -11,21 +11,36 @@
   </head>
   <body>
 
-    <div class="boot-screen" aria-label="Site startup animation" role="status">
+    <div class="boot-screen" aria-label="Fatal startup boot animation" role="status">
+      <div class="boot-static" aria-hidden="true"></div>
       <div class="boot-scanlines" aria-hidden="true"></div>
-      <section class="boot-scene boot-scene-playstation" aria-label="PlayStation 5 startup logo">
-        <div class="glitch-stack playstation-stage" data-text="PS5">
-          <svg class="playstation-mark" viewBox="0 0 420 260" role="img" aria-labelledby="ps-title ps-desc">
-            <title id="ps-title">PlayStation-inspired startup logo</title>
-            <desc id="ps-desc">A white PlayStation-style emblem above PS5 text for the startup animation.</desc>
-            <path class="ps-p" d="M184 34c48 13 75 35 75 69 0 33-25 51-65 46v-43c14 4 25-2 25-14 0-11-9-20-35-29z"/>
-            <path class="ps-stem" d="M154 44l30-10v182l-30 10z"/>
-            <path class="ps-swoosh" d="M139 142c-54 11-92 27-91 47 2 30 91 29 188-2 61-19 104-43 101-64-2-15-27-20-67-14l-14 20c22-3 36-1 37 5 1 9-30 25-70 37-63 18-124 20-125 8-1-8 24-18 59-26z"/>
-            <text x="210" y="244" text-anchor="middle" class="ps5-text">PS5</text>
-          </svg>
+      <button class="boot-audio-button" type="button">START BOOT WITH AUDIO</button>
+      <section class="boot-scene boot-scene-loader" aria-label="System startup sequence">
+        <div class="boot-loader-card">
+          <img src="assets/logo.svg" alt="" class="boot-loader-logo" />
+          <p class="boot-loader-title">İSTEK OS</p>
+          <div class="boot-progress"><span></span></div>
+          <p class="boot-loader-status">BOOTING DISPLAY CORE...</p>
         </div>
       </section>
-      <section class="boot-scene boot-scene-istek" aria-label="İstek Mersin Koleji logo materializing">
+      <section class="boot-scene boot-scene-fatal" aria-label="Windows-style fatal error sequence">
+        <div class="fatal-window" role="img" aria-label="Glitchy fatal error window saying no boot device found">
+          <div class="fatal-titlebar"><span>Windows Fatal Error</span><span>×</span></div>
+          <div class="fatal-body">
+            <div class="fatal-icon">✕</div>
+            <div>
+              <h2>NO BOOT DEVICE FOUND</h2>
+              <p>Fatal startup error: website layer hidden under boot screen.</p>
+              <code>0x0000007B_NOTHING_FOUND</code>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="boot-scene boot-scene-kill" aria-label="Kill screen glitch sequence">
+        <div class="kill-screen-text" data-text="KILL SCREEN">KILL SCREEN</div>
+        <div class="kill-screen-subtitle">SIGNAL LOST • NO BOOT • NOTHING FOUND</div>
+      </section>
+      <section class="boot-scene boot-scene-istek" aria-label="İstek Mersin Koleji logo materializing after glitch">
         <div class="materialize-field">
           <img src="assets/logo.svg" alt="Mersin İstek Okulları logo" class="boot-istek-logo" />
           <p class="boot-caption">İSTEK MERSİN KOLEJİ</p>
