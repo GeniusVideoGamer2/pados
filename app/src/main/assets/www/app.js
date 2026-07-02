@@ -1,298 +1,117 @@
-const starterChannels = [
-  { name: 'TRT 1', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT 2', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal D', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Show TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'ATV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Star TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'NOW', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TV8', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal 7', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'CNN Türk', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'NTV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Habertürk', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'A Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TGRT Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Spor', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Belgesel', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'A Spor', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Sports TV', category: 'Sports', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'beIN SPORTS 1', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS 2', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS 3', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS 4', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS 5', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS MAX 1', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS MAX 2', category: 'Sports', language: 'Turkish', source: '', note: 'No public internet stream available; official Digiturk subscription stream required' },
-  { name: 'beIN SPORTS HABER', category: 'Sports', language: 'Turkish', source: '', note: 'Official public stream URL required' },
-  { name: 'beIN SPORTS XTRA', category: 'Sports', language: 'English', source: '', note: 'Free public internet live stream' },
-  { name: 'beIN SPORTS XTRA en Español', category: 'Sports', language: 'Spanish', source: '', note: 'Free public internet live stream' },
-  { name: 'TRT Çocuk', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Minika Çocuk', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Minika GO', category: 'Kids', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kral Pop TV', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Dream Türk', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Müzik', category: 'Music', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: '24 TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Beyaz TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Tele 1', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Halk TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Bloomberg HT', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Ülke TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal B', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Flash Haber', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TV 100', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Ekotürk', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Avaz', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT Türk', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'TRT World', category: 'News', language: 'English', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal 24', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Dost TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Semerkand TV', category: 'National', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kon TV', category: 'Local', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal 26', category: 'Local', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kayseri TV', category: 'Local', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Çay TV', category: 'Local', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Kanal Urfa', category: 'Local', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Bengütürk TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Akit TV', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' },
-  { name: 'Ulusal Kanal', category: 'News', language: 'Turkish', source: '', note: 'Official stream URL required' }
+const modes = [
+  { name: 'Neon Expanse Battle', detail: 'Solo drop, crates, storm gates, 24 bot rivals.' },
+  { name: 'LAN PvP Arena', detail: 'Same-network room code for friendly private duels.' },
+  { name: 'Training Range', detail: 'Practice recoil, scopes, reloads, and movement.' },
+  { name: 'Crate Rush', detail: 'Search chests for fictional weapons and energy ammo.' }
 ];
 
-const publicStreamOverrides = {
-  'TRT 1': 'https://tv-trt1.medya.trt.com.tr/master.m3u8',
-  'TRT 2': 'https://tv-trt2.medya.trt.com.tr/master.m3u8',
-  'TRT Haber': 'https://tv-trthaber.medya.trt.com.tr/master.m3u8',
-  'TRT Spor': 'https://tv-trtspor1.medya.trt.com.tr/master.m3u8',
-  'TRT Çocuk': 'https://tv-trtcocuk.medya.trt.com.tr/master.m3u8',
-  'TRT Müzik': 'https://tv-trtmuzik.medya.trt.com.tr/master.m3u8',
-  'TRT World': 'https://tv-trtworld.medya.trt.com.tr/master.m3u8',
-  'beIN SPORTS XTRA': 'https://bein-xtra-bein.amagi.tv/playlist.m3u8',
-  'beIN SPORTS XTRA en Español': 'https://bein-esp-klowdtv.amagi.tv/playlist.m3u8'
+const guns = [
+  { name: 'Viper AR', type: 'Assault rifle', damage: 31, rate: '720 RPM', ammo: 30, look: 'teal polymer body, holo rail, short barrel' },
+  { name: 'Mesa DMR', type: 'Marksman', damage: 58, rate: '280 RPM', ammo: 12, look: 'sand frame, long scope, angular stock' },
+  { name: 'Comet SMG', type: 'SMG', damage: 22, rate: '960 RPM', ammo: 40, look: 'compact purple shell, glowing magazine' },
+  { name: 'Bulwark Shotgun', type: 'Shotgun', damage: 85, rate: '90 RPM', ammo: 6, look: 'wide chrome receiver, pump grip' },
+  { name: 'Northstar Sniper', type: 'Sniper', damage: 95, rate: '45 RPM', ammo: 5, look: 'white carbon barrel, blue scope lens' },
+  { name: 'Pulse Pistol', type: 'Sidearm', damage: 18, rate: '480 RPM', ammo: 15, look: 'small black frame, orange energy sights' }
+];
+
+const state = {
+  profile: JSON.parse(localStorage.getItem('asaProfile') || 'null'),
+  query: '', selectedGun: guns[0], ammo: 30, reserve: 90, hp: 100, wins: Number(localStorage.getItem('asaWins') || 0),
+  infinite: false, scoped: false, yaw: 0, playerX: 0, playerZ: 0, bots: []
 };
 
-starterChannels.forEach((channel) => {
-  const stream = publicStreamOverrides[channel.name];
-  if (!stream) return;
-  channel.source = stream;
-  channel.note = channel.name.startsWith('beIN SPORTS XTRA') ? 'Free public internet HLS stream' : 'Public internet HLS stream';
-  channel.sourceLabel = channel.name.startsWith('beIN SPORTS XTRA') ? 'beIN SPORTS XTRA public FAST stream' : 'TRT public web stream';
-});
+const $ = (selector) => document.querySelector(selector);
+const startScreen = $('#start-screen');
+const loadingScreen = $('#loading-screen');
+const gameScreen = $('#game-screen');
+const modeList = $('#mode-list');
+const modeTemplate = $('#mode-template');
+const gunList = $('#gun-list');
+const gunTemplate = $('#gun-template');
+const canvas = $('#arena-canvas');
+const ctx = canvas.getContext('2d');
 
-const remotePlaylists = [{ label: 'IPTV-Org Turkey public playlist', url: 'https://iptv-org.github.io/iptv/countries/tr.m3u' }];
-const state = { channels: [...starterChannels], favorites: new Set(JSON.parse(localStorage.getItem('turksatFavorites') || '[]')), filter: 'all', query: '', selectedChannel: null };
-const channelList = document.querySelector('#channel-list');
-const channelTemplate = document.querySelector('#channel-template');
-const channelCount = document.querySelector('#channel-count');
-const searchInput = document.querySelector('#channel-search');
-const chips = document.querySelectorAll('.chip');
-const player = document.querySelector('#tv-player');
-const playerEmpty = document.querySelector('#player-empty');
-const playerTitle = document.querySelector('#player-title');
-const channelMeta = document.querySelector('#channel-meta');
-const streamForm = document.querySelector('#stream-form');
-const streamName = document.querySelector('#stream-name');
-const streamUrl = document.querySelector('#stream-url');
-const playlistForm = document.querySelector('#playlist-form');
-const playlistFile = document.querySelector('#playlist-file');
-const favoriteButton = document.querySelector('#favorite-button');
-const remotePlaylistButton = document.querySelector('#remote-playlist-button');
-const remotePlaylistStatus = document.querySelector('#remote-playlist-status');
-const signalLabel = document.querySelector('#signal-label');
-const playerCard = document.querySelector('.player-card');
-const previousChannelButton = document.querySelector('#previous-channel-button');
-const nextChannelButton = document.querySelector('#next-channel-button');
-const volumeUpButton = document.querySelector('#volume-up-button');
-const volumeDownButton = document.querySelector('#volume-down-button');
-const fullscreenButton = document.querySelector('#fullscreen-button');
-let hlsInstance = null;
+function saveProfile() { localStorage.setItem('asaProfile', JSON.stringify(state.profile)); }
+function syncProfileUi() {
+  $('#hud-name').textContent = state.profile?.name || 'Rookie';
+  $('#wins').textContent = `Wins ${state.wins}`;
+  $('#profile-status').textContent = state.profile ? `Signed in as ${state.profile.name}. Cloud sync hook prepared for Google Play services.` : 'Stats save locally now and are ready for Google cloud sync integration.';
+}
 
-function normalize(value) { return value.toLocaleLowerCase('tr-TR'); }
-function getVisibleChannels() {
-  const query = normalize(state.query.trim());
-  return state.channels.filter((channel) => {
-    const searchable = normalize(`${channel.name} ${channel.category} ${channel.language} ${channel.note || ''}`);
-    return (state.filter === 'all' || channel.category === state.filter) && (!query || searchable.includes(query));
+function renderModes() {
+  const query = state.query.toLowerCase();
+  modeList.replaceChildren();
+  modes.filter((mode) => `${mode.name} ${mode.detail}`.toLowerCase().includes(query)).forEach((mode) => {
+    const node = modeTemplate.content.firstElementChild.cloneNode(true);
+    node.querySelector('strong').textContent = mode.name;
+    node.querySelector('small').textContent = mode.detail;
+    node.addEventListener('click', () => mode.name.includes('LAN') ? startGame(true) : startGame(false));
+    modeList.append(node);
   });
 }
-function getInitials(name) { return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toLocaleUpperCase('tr-TR'); }
-function setSignal(message) { signalLabel.textContent = message; }
-function renderChannels() {
-  const visibleChannels = getVisibleChannels();
-  channelList.replaceChildren();
-  channelCount.textContent = `${visibleChannels.length}/${state.channels.length}`;
-  visibleChannels.forEach((channel) => {
-    const item = channelTemplate.content.firstElementChild.cloneNode(true);
-    item.dataset.name = channel.name;
-    item.classList.toggle('is-selected', state.selectedChannel?.name === channel.name);
-    item.querySelector('.channel-logo').textContent = getInitials(channel.name);
-    item.querySelector('strong').textContent = channel.name;
-    item.querySelector('small').textContent = `${channel.language} • ${channel.note || 'Ready to play'}`;
-    item.querySelector('.channel-badge').textContent = channel.category;
-    item.addEventListener('click', () => selectChannel(channel));
-    channelList.append(item);
+
+function renderGuns() {
+  gunList.replaceChildren();
+  guns.forEach((gun) => {
+    const node = gunTemplate.content.firstElementChild.cloneNode(true);
+    node.classList.toggle('is-active', gun.name === state.selectedGun.name);
+    node.querySelector('.gun-model').style.setProperty('--gun-color', gun.name.includes('Comet') ? '#a855f7' : gun.name.includes('Northstar') ? '#e0f2fe' : gun.name.includes('Bulwark') ? '#f97316' : '#22d3ee');
+    node.querySelector('strong').textContent = gun.name;
+    node.querySelector('small').textContent = `${gun.type} • DMG ${gun.damage} • ${gun.rate} • ${gun.look}`;
+    node.addEventListener('click', () => { state.selectedGun = gun; state.ammo = gun.ammo; updateHud(`${gun.name} equipped.`); renderGuns(); });
+    gunList.append(node);
   });
 }
-function playSource(source) {
-  if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
-  if (source.includes('.m3u8') && window.Hls?.isSupported()) {
-    hlsInstance = new window.Hls();
-    hlsInstance.loadSource(source);
-    hlsInstance.attachMedia(player);
-    return;
-  }
-  player.src = source;
-  player.load();
-}
-function clearPlayer() {
-  if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
-  player.removeAttribute('src');
-  player.load();
+
+function updateHud(message) {
+  $('#health').textContent = `HP ${state.hp}`;
+  $('#ammo').textContent = state.infinite ? 'Ammo ∞' : `Ammo ${state.ammo}/${state.reserve}`;
+  $('#hit-feed').textContent = message;
 }
 
-function getPlayableChannels() {
-  return state.channels.filter((channel) => channel.source);
+function startGame(lan = false) {
+  startScreen.hidden = true; loadingScreen.hidden = false;
+  $('#loading-tip').textContent = lan ? 'Opening same-network PvP arena room…' : 'Dropping crates and spawning training rivals…';
+  setTimeout(() => {
+    loadingScreen.hidden = true; gameScreen.hidden = false;
+    $('#room-code').textContent = lan ? `LAN room ASA-${Math.floor(1000 + Math.random() * 9000)}` : 'Solo training';
+    state.bots = Array.from({ length: lan ? 3 : 8 }, (_, i) => ({ x: Math.random() * 900 - 450, z: Math.random() * 500 + 180, hp: 100, name: lan ? `LAN Player ${i + 1}` : `Drone ${i + 1}` }));
+    renderGuns(); updateHud('Match started. No blood: hits use shield sparks only.'); draw();
+  }, 1300);
 }
 
-function selectAdjacentChannel(direction) {
-  const playableChannels = getPlayableChannels();
-  if (!playableChannels.length) {
-    setSignal('No streams');
-    return;
-  }
-
-  const currentIndex = Math.max(0, playableChannels.findIndex((channel) => channel.name === state.selectedChannel?.name));
-  const nextIndex = (currentIndex + direction + playableChannels.length) % playableChannels.length;
-  selectChannel(playableChannels[nextIndex]);
+function draw() {
+  if (gameScreen.hidden) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  sky.addColorStop(0, '#10194a'); sky.addColorStop(0.58, '#16213f'); sky.addColorStop(1, '#07111f');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = 'rgba(125, 211, 252, .35)'; ctx.lineWidth = 2;
+  for (let i = -8; i <= 8; i++) { ctx.beginPath(); ctx.moveTo(canvas.width / 2 + i * 90 - state.yaw * 2, 420); ctx.lineTo(canvas.width / 2 + i * 190 - state.yaw * 8, 720); ctx.stroke(); }
+  for (let y = 440; y < 720; y += 48) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1280, y); ctx.stroke(); }
+  ctx.fillStyle = '#0f766e'; ctx.fillRect(150 - state.yaw, 330, 180, 110); ctx.fillStyle = '#334155'; ctx.fillRect(770 - state.yaw * .6, 280, 260, 160);
+  state.bots.forEach((bot) => { const sx = 640 + bot.x * .35 - state.yaw * 3; const sy = 390 + bot.z * .12; ctx.fillStyle = 'rgba(248,113,113,.9)'; ctx.fillRect(sx - 16, sy - 48, 32, 48); ctx.fillStyle = '#e2e8f0'; ctx.fillText(bot.name, sx - 28, sy - 56); });
+  drawWeapon(); requestAnimationFrame(draw);
 }
 
-function adjustPlayerVolume(delta) {
-  player.muted = false;
-  player.volume = Math.min(1, Math.max(0, player.volume + delta));
-  setSignal(`Volume ${Math.round(player.volume * 100)}%`);
+function drawWeapon() {
+  ctx.save(); ctx.translate(state.scoped ? 590 : 760, state.scoped ? 510 : 560); ctx.rotate(-0.08);
+  ctx.fillStyle = '#111827'; ctx.fillRect(0, 0, 300, 42); ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent'); ctx.fillRect(30, -18, 155, 24); ctx.fillStyle = '#38bdf8'; ctx.fillRect(210, -12, 62, 14); ctx.fillStyle = '#020617'; ctx.fillRect(105, 42, 52, 70); ctx.restore();
+  if (state.scoped) { ctx.strokeStyle = 'rgba(226,232,240,.8)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(640, 360, 132, 0, Math.PI * 2); ctx.moveTo(508, 360); ctx.lineTo(772, 360); ctx.moveTo(640, 228); ctx.lineTo(640, 492); ctx.stroke(); }
 }
 
-function syncFullscreenState() {
-  const isFullscreen = document.fullscreenElement === playerCard;
-  playerCard.classList.toggle('is-fullscreen', isFullscreen);
-  fullscreenButton.textContent = isFullscreen ? '⛶ Exit full screen' : '⛶ Full screen';
-  fullscreenButton.setAttribute('aria-pressed', String(isFullscreen));
-}
+$('#google-login').addEventListener('click', () => { $('#name-row').hidden = false; $('#player-name').focus(); });
+$('#save-name').addEventListener('click', () => { const name = $('#player-name').value.trim(); if (!name) return; state.profile = { name, provider: 'google-demo', createdAt: new Date().toISOString() }; saveProfile(); syncProfileUi(); $('#name-row').hidden = true; });
+$('#game-search').addEventListener('input', (event) => { state.query = event.target.value; renderModes(); });
+$('#search-button').addEventListener('click', renderModes);
+$('#play-button').addEventListener('click', () => startGame(false));
+$('#arena-button').addEventListener('click', () => startGame(true));
+$('#exit-game').addEventListener('click', () => { gameScreen.hidden = true; startScreen.hidden = false; });
+$('#infinite-ammo').addEventListener('click', () => { state.infinite = !state.infinite; updateHud(state.infinite ? 'Infinite ammo enabled for sandbox testing.' : 'Infinite ammo disabled.'); });
+$('#scope-button').addEventListener('click', () => { state.scoped = !state.scoped; updateHud(state.scoped ? 'Scope view on.' : 'Hip-fire view.'); });
+$('#reload-button').addEventListener('click', () => { const need = state.selectedGun.ammo - state.ammo; const take = Math.min(need, state.reserve); state.ammo += take; state.reserve -= take; updateHud(take ? 'Reloaded energy magazine.' : 'No reserve ammo. Search crates.'); });
+$('#fire-button').addEventListener('click', () => { if (!state.infinite && state.ammo <= 0) return updateHud('Empty. Reload or find ammo.'); if (!state.infinite) state.ammo -= 1; const target = state.bots.find((bot) => bot.hp > 0); if (target) { target.hp -= state.selectedGun.damage; if (target.hp <= 0) { state.wins += 1; localStorage.setItem('asaWins', state.wins); state.bots = state.bots.filter((bot) => bot !== target); updateHud(`${target.name} tagged with shield sparks. No blood effect.`); } else updateHud(`${target.name} shield hit for ${state.selectedGun.damage}.`); } else updateHud('Shot fired into the arena.'); syncProfileUi(); });
+canvas.addEventListener('pointermove', (event) => { if (event.buttons) state.yaw += event.movementX || 0; });
 
-async function togglePlayerFullscreen() {
-  try {
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
-      return;
-    }
-    await playerCard.requestFullscreen();
-  } catch (error) {
-    playerCard.classList.toggle('is-fullscreen');
-    const isFullscreen = playerCard.classList.contains('is-fullscreen');
-    fullscreenButton.textContent = isFullscreen ? '⛶ Exit full screen' : '⛶ Full screen';
-    fullscreenButton.setAttribute('aria-pressed', String(isFullscreen));
-  }
-}
-function selectChannel(channel) {
-  state.selectedChannel = channel;
-  playerTitle.textContent = channel.name;
-  const streamStatus = channel.source ? `Live stream loaded${channel.sourceLabel ? ` from ${channel.sourceLabel}` : ''}` : 'Paste, import, or fetch an official/public stream URL to watch.';
-  channelMeta.textContent = `${channel.category} • ${channel.language} • ${streamStatus}`;
-  favoriteButton.disabled = false;
-  favoriteButton.setAttribute('aria-pressed', String(state.favorites.has(channel.name)));
-  favoriteButton.textContent = state.favorites.has(channel.name) ? '★ Favorite' : '☆ Favorite';
-  if (channel.source) { playSource(channel.source); playerEmpty.classList.add('is-hidden'); setSignal('Streaming'); }
-  else { clearPlayer(); playerEmpty.classList.remove('is-hidden'); setSignal('Needs URL'); }
-  renderChannels();
-}
-function upsertChannel(channel) {
-  const existingIndex = state.channels.findIndex((item) => item.name === channel.name);
-  if (existingIndex >= 0) { state.channels[existingIndex] = { ...state.channels[existingIndex], ...channel }; return state.channels[existingIndex]; }
-  state.channels.unshift(channel);
-  return channel;
-}
-function getM3UAttribute(line, attribute) {
-  const quoted = line.match(new RegExp(`${attribute}="([^"]+)"`, 'i'));
-  if (quoted) return quoted[1];
-  const unquoted = line.match(new RegExp(`${attribute}=([^\\s,]+)`, 'i'));
-  return unquoted?.[1] || '';
-}
-function parseM3U(text, defaults = {}) {
-  const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-  const imported = [];
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-    if (!line.startsWith('#EXTINF')) continue;
-    const name = line.split(',').pop()?.trim() || `Imported channel ${imported.length + 1}`;
-    const groupTitle = getM3UAttribute(line, 'group-title');
-    const logo = getM3UAttribute(line, 'tvg-logo');
-    let source = '';
-    for (let sourceIndex = index + 1; sourceIndex < lines.length; sourceIndex += 1) {
-      if (lines[sourceIndex].startsWith('#EXTINF')) break;
-      if (lines[sourceIndex].startsWith('#')) continue;
-      source = lines[sourceIndex];
-      break;
-    }
-    if (source) imported.push({ name, category: groupTitle || defaults.category || 'Imported', language: defaults.language || 'Playlist', logo, source, note: defaults.note || 'Imported legal stream', sourceLabel: defaults.sourceLabel || 'M3U playlist' });
-  }
-  return imported;
-}
-searchInput.addEventListener('input', (event) => { state.query = event.target.value; renderChannels(); });
-chips.forEach((chip) => chip.addEventListener('click', () => { chips.forEach((item) => item.classList.remove('is-active')); chip.classList.add('is-active'); state.filter = chip.dataset.filter; renderChannels(); }));
-streamForm.addEventListener('submit', (event) => { event.preventDefault(); const channel = upsertChannel({ name: streamName.value.trim() || 'Custom live stream', category: 'Imported', language: 'Custom', source: streamUrl.value.trim(), note: 'Manual stream URL' }); renderChannels(); selectChannel(channel); streamForm.reset(); });
-async function loadRemotePlaylists() {
-  remotePlaylistButton.disabled = true;
-  remotePlaylistStatus.textContent = 'Loading public internet streams…';
-  setSignal('Loading web');
-  try {
-    const importedGroups = await Promise.all(remotePlaylists.map(async (playlist) => {
-      const response = await fetch(playlist.url, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`${playlist.label} returned ${response.status}`);
-      return parseM3U(await response.text(), { category: 'Internet TV', language: 'Turkish', note: `Public internet stream from ${playlist.label}`, sourceLabel: playlist.label });
-    }));
-    const imported = importedGroups.flat();
-    imported.forEach(upsertChannel);
-    renderChannels();
-    remotePlaylistStatus.textContent = imported.length ? `Added/updated ${imported.length} public internet streams.` : 'No playable streams were found in the public playlist.';
-    setSignal(imported.length ? `${imported.length} web` : 'No streams');
-    if (imported[0]) selectChannel(imported[0]);
-  } catch (error) {
-    remotePlaylistStatus.textContent = `Could not load streams: ${error.message}. Try again later or paste an M3U URL manually.`;
-    setSignal('Web load error');
-  } finally { remotePlaylistButton.disabled = false; }
-}
-playlistForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const file = playlistFile.files?.[0];
-  if (!file) { setSignal('Choose file'); return; }
-  const imported = parseM3U(await file.text());
-  imported.forEach(upsertChannel);
-  renderChannels();
-  setSignal(imported.length ? `${imported.length} added` : 'No streams found');
-  if (imported[0]) selectChannel(imported[0]);
-  playlistForm.reset();
-});
-remotePlaylistButton.addEventListener('click', loadRemotePlaylists);
-previousChannelButton.addEventListener('click', () => selectAdjacentChannel(-1));
-nextChannelButton.addEventListener('click', () => selectAdjacentChannel(1));
-volumeUpButton.addEventListener('click', () => adjustPlayerVolume(0.1));
-volumeDownButton.addEventListener('click', () => adjustPlayerVolume(-0.1));
-fullscreenButton.addEventListener('click', togglePlayerFullscreen);
-document.addEventListener('fullscreenchange', syncFullscreenState);
-window.turksatPlayerControls = {
-  nextChannel: () => selectAdjacentChannel(1),
-  previousChannel: () => selectAdjacentChannel(-1),
-  volumeUp: () => adjustPlayerVolume(0.1),
-  volumeDown: () => adjustPlayerVolume(-0.1),
-  toggleFullscreen: togglePlayerFullscreen
-};
-favoriteButton.addEventListener('click', () => {
-  if (!state.selectedChannel) return;
-  if (state.favorites.has(state.selectedChannel.name)) state.favorites.delete(state.selectedChannel.name); else state.favorites.add(state.selectedChannel.name);
-  localStorage.setItem('turksatFavorites', JSON.stringify([...state.favorites]));
-  selectChannel(state.selectedChannel);
-});
-player.addEventListener('error', () => { setSignal('Stream error'); channelMeta.textContent = 'The stream could not be played by this browser. Check that the URL is legal, online, and CORS-enabled.'; });
-favoriteButton.disabled = true;
-renderChannels();
+if (state.profile) syncProfileUi();
+renderModes();
