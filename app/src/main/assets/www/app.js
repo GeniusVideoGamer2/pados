@@ -24,6 +24,8 @@ const $ = (selector) => document.querySelector(selector);
 const BOOT_LOAD_MS = 5000;
 const MATCH_LOAD_MS = 5000;
 const bootScreen = $('#boot-screen');
+const bootCountdown = $('#boot-countdown');
+let bootSecondsLeft = BOOT_LOAD_MS / 1000;
 const startScreen = $('#start-screen');
 const loadingScreen = $('#loading-screen');
 const gameScreen = $('#game-screen');
@@ -117,5 +119,17 @@ $('#reload-button').addEventListener('click', () => { const need = state.selecte
 $('#fire-button').addEventListener('click', () => { if (!state.infinite && state.ammo <= 0) return updateHud('Empty. Reload or find ammo.'); if (!state.infinite) state.ammo -= 1; const target = state.bots.find((bot) => bot.hp > 0); if (target) { target.hp -= state.selectedGun.damage; if (target.hp <= 0) { state.wins += 1; localStorage.setItem('asaWins', state.wins); state.bots = state.bots.filter((bot) => bot !== target); updateHud(`${target.name} tagged with shield sparks. No blood effect.`); } else updateHud(`${target.name} shield hit for ${state.selectedGun.damage}.`); } else updateHud('Shot fired into the arena.'); syncProfileUi(); });
 canvas.addEventListener('pointermove', (event) => { if (event.buttons) state.yaw += event.movementX || 0; });
 
-setTimeout(() => { bootScreen.hidden = true; startScreen.hidden = false; syncProfileUi(); }, BOOT_LOAD_MS);
+const bootTicker = setInterval(() => {
+  bootSecondsLeft = Math.max(0, bootSecondsLeft - 1);
+  bootCountdown.textContent = bootSecondsLeft;
+  if (bootSecondsLeft <= 0) clearInterval(bootTicker);
+}, 1000);
+
+setTimeout(() => {
+  clearInterval(bootTicker);
+  bootCountdown.textContent = '0';
+  bootScreen.hidden = true;
+  startScreen.hidden = false;
+  syncProfileUi();
+}, BOOT_LOAD_MS);
 renderModes();
