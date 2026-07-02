@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.sinavkoleji.turksattv'
+    namespace 'com.gamexturk.arena'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.sinavkoleji.turksattv'
+        applicationId 'com.gamexturk.arena'
         minSdk 23
         targetSdk 35
         versionCode 1
