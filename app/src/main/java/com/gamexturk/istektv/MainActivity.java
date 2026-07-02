@@ -1,4 +1,4 @@
-package com.sinavkoleji.turksattv;
+package com.gamexturk.istektv;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
