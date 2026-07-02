@@ -21,6 +21,9 @@ const state = {
 };
 
 const $ = (selector) => document.querySelector(selector);
+const BOOT_LOAD_MS = 5000;
+const MATCH_LOAD_MS = 5000;
+const bootScreen = $('#boot-screen');
 const startScreen = $('#start-screen');
 const loadingScreen = $('#loading-screen');
 const gameScreen = $('#game-screen');
@@ -35,7 +38,8 @@ function saveProfile() { localStorage.setItem('asaProfile', JSON.stringify(state
 function syncProfileUi() {
   $('#hud-name').textContent = state.profile?.name || 'Rookie';
   $('#wins').textContent = `Wins ${state.wins}`;
-  $('#profile-status').textContent = state.profile ? `Signed in as ${state.profile.name}. Cloud sync hook prepared for Google Play services.` : 'Stats save locally now and are ready for Google cloud sync integration.';
+  $('#profile-status').textContent = state.profile ? `Signed in as ${state.profile.name}. Google cloud sync hook is ready; no ads are loaded.` : 'Create your permanent name once. Wins, guns, and match history save locally now and are ready for Google cloud sync integration.';
+  $('#play-button').disabled = !state.profile;
 }
 
 function renderModes() {
@@ -45,7 +49,7 @@ function renderModes() {
     const node = modeTemplate.content.firstElementChild.cloneNode(true);
     node.querySelector('strong').textContent = mode.name;
     node.querySelector('small').textContent = mode.detail;
-    node.addEventListener('click', () => mode.name.includes('LAN') ? startGame(true) : startGame(false));
+    node.addEventListener('click', () => { if (!state.profile) { $('#profile-status').textContent = 'Please login/signup with Google before entering a map.'; return; } mode.name.includes('LAN') ? startGame(true) : startGame(false); });
     modeList.append(node);
   });
 }
@@ -77,7 +81,7 @@ function startGame(lan = false) {
     $('#room-code').textContent = lan ? `LAN room ASA-${Math.floor(1000 + Math.random() * 9000)}` : 'Solo training';
     state.bots = Array.from({ length: lan ? 3 : 8 }, (_, i) => ({ x: Math.random() * 900 - 450, z: Math.random() * 500 + 180, hp: 100, name: lan ? `LAN Player ${i + 1}` : `Drone ${i + 1}` }));
     renderGuns(); updateHud('Match started. No blood: hits use shield sparks only.'); draw();
-  }, 1300);
+  }, MATCH_LOAD_MS);
 }
 
 function draw() {
@@ -100,12 +104,12 @@ function drawWeapon() {
   if (state.scoped) { ctx.strokeStyle = 'rgba(226,232,240,.8)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(640, 360, 132, 0, Math.PI * 2); ctx.moveTo(508, 360); ctx.lineTo(772, 360); ctx.moveTo(640, 228); ctx.lineTo(640, 492); ctx.stroke(); }
 }
 
-$('#google-login').addEventListener('click', () => { $('#name-row').hidden = false; $('#player-name').focus(); });
+$('#google-login').addEventListener('click', () => { $('#name-row').hidden = false; $('#profile-status').textContent = 'Google login/signup selected. Choose your permanent cloud-ready player name.'; $('#player-name').focus(); });
 $('#save-name').addEventListener('click', () => { const name = $('#player-name').value.trim(); if (!name) return; state.profile = { name, provider: 'google-demo', createdAt: new Date().toISOString() }; saveProfile(); syncProfileUi(); $('#name-row').hidden = true; });
 $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; renderModes(); });
 $('#search-button').addEventListener('click', renderModes);
-$('#play-button').addEventListener('click', () => startGame(false));
-$('#arena-button').addEventListener('click', () => startGame(true));
+$('#play-button').addEventListener('click', () => { if (!state.profile) { $('#profile-status').textContent = 'Please login/signup with Google and create a permanent name first.'; return; } startGame(false); });
+$('#arena-button').addEventListener('click', () => { if (!state.profile) { $('#profile-status').textContent = 'Please login/signup with Google and create a permanent name before LAN PvP.'; return; } startGame(true); });
 $('#exit-game').addEventListener('click', () => { gameScreen.hidden = true; startScreen.hidden = false; });
 $('#infinite-ammo').addEventListener('click', () => { state.infinite = !state.infinite; updateHud(state.infinite ? 'Infinite ammo enabled for sandbox testing.' : 'Infinite ammo disabled.'); });
 $('#scope-button').addEventListener('click', () => { state.scoped = !state.scoped; updateHud(state.scoped ? 'Scope view on.' : 'Hip-fire view.'); });
@@ -113,5 +117,5 @@ $('#reload-button').addEventListener('click', () => { const need = state.selecte
 $('#fire-button').addEventListener('click', () => { if (!state.infinite && state.ammo <= 0) return updateHud('Empty. Reload or find ammo.'); if (!state.infinite) state.ammo -= 1; const target = state.bots.find((bot) => bot.hp > 0); if (target) { target.hp -= state.selectedGun.damage; if (target.hp <= 0) { state.wins += 1; localStorage.setItem('asaWins', state.wins); state.bots = state.bots.filter((bot) => bot !== target); updateHud(`${target.name} tagged with shield sparks. No blood effect.`); } else updateHud(`${target.name} shield hit for ${state.selectedGun.damage}.`); } else updateHud('Shot fired into the arena.'); syncProfileUi(); });
 canvas.addEventListener('pointermove', (event) => { if (event.buttons) state.yaw += event.movementX || 0; });
 
-if (state.profile) syncProfileUi();
+setTimeout(() => { bootScreen.hidden = true; startScreen.hidden = false; syncProfileUi(); }, BOOT_LOAD_MS);
 renderModes();

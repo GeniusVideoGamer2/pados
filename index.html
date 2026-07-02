@@ -10,21 +10,30 @@
   </head>
   <body>
     <div class="stars" aria-hidden="true"></div>
-    <main class="shell" id="start-screen">
+    <section class="loading-screen boot-screen" id="boot-screen">
+      <div class="loader-orb"></div>
+      <h2>Aurora Strike Arena</h2>
+      <p>Starting secure no-ads game shell…</p>
+      <div class="boot-bar" aria-hidden="true"><span></span></div>
+      <small>5 second first load • Google cloud profile ready • no ads</small>
+    </section>
+
+    <main class="shell" id="start-screen" hidden>
       <section class="hero-card glass">
-        <p class="eyebrow">Fictional 18+ no-blood arena shooter</p>
+        <p class="eyebrow">Login / signup • no ads • no-blood 18+ arena</p>
         <h1>Aurora Strike Arena</h1>
-        <p class="lede">Drop into a neon island, collect energy ammo from crates, duel in LAN rooms, and test stylized 3D-inspired weapons. This is an original prototype inspired by the battle-royale/tactical-shooter genre, not a clone of any real game.</p>
+        <p class="lede">Sign in or sign up with the Google cloud profile flow, then drop into a neon island, collect energy ammo from crates, duel in LAN rooms, and test stylized 3D-inspired weapons. This original prototype has no ads and no blood effects.</p>
         <div class="auth-panel" id="auth-panel">
-          <button class="google-button" id="google-login" type="button">G Continue with Google</button>
+          <button class="google-button" id="google-login" type="button">G Login / Sign up with Google</button>
           <div class="name-row" id="name-row" hidden>
             <input id="player-name" maxlength="18" placeholder="Create permanent name" autocomplete="nickname" />
             <button id="save-name" type="button">Enter</button>
           </div>
-          <small id="profile-status">Stats save locally now and are ready for Google cloud sync integration.</small>
+          <small id="profile-status">Create your permanent name once. Wins, guns, and match history save locally now and are ready for Google cloud sync integration.</small>
+          <strong class="no-ads-badge">No ads in this app</strong>
         </div>
         <div class="play-row">
-          <button class="primary" id="play-button" type="button">▶ Play</button>
+          <button class="primary" id="play-button" type="button" disabled>▶ Play</button>
           <button class="secondary" id="arena-button" type="button">LAN PvP Arena</button>
         </div>
       </section>
