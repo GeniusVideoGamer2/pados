@@ -23,6 +23,18 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
+## Android APK
+
+The Android wrapper app uses the application ID/package name `com.gamexturk.istektv` and loads the bundled web app from `app/src/main/assets/www`.
+
+Build a debug APK locally with:
+
+```bash
+gradle --no-daemon :app:assembleDebug
+```
+
+The APK will be written to `app/build/outputs/apk/debug/app-debug.apk`. GitHub Actions also builds and uploads this APK through the **Build Android APK** workflow.
+
 ## GitHub Pages website
 
 This project is now ready to publish as a plain static GitHub Pages website. The live web app uses the root files directly:
@@ -32,7 +44,7 @@ This project is now ready to publish as a plain static GitHub Pages website. The
 - `app.js` for channel browsing, favorites, imports, public streams, and playback,
 - `assets/logo.svg` for the app icon/poster artwork.
 
-No APK build is required for the website. The GitHub Pages workflow at `.github/workflows/github-pages.yml` uploads the repository as a static site and deploys it with GitHub Pages.
+The Android project builds an APK with package name `com.gamexturk.istektv`. The GitHub Actions workflow at `.github/workflows/android-apk.yml` builds the debug APK and uploads it as an artifact, while `.github/workflows/github-pages.yml` continues to publish the static site.
 
 ### Publish on GitHub Pages
 
