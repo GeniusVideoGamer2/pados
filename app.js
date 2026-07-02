@@ -128,8 +128,11 @@ const bootTicker = setInterval(() => {
 setTimeout(() => {
   clearInterval(bootTicker);
   bootCountdown.textContent = '0';
-  bootScreen.hidden = true;
-  startScreen.hidden = false;
-  syncProfileUi();
+  bootScreen.classList.add('is-invisible');
+  setTimeout(() => {
+    bootScreen.hidden = true;
+    startScreen.hidden = false;
+    syncProfileUi();
+  }, 320);
 }, BOOT_LOAD_MS);
 renderModes();
