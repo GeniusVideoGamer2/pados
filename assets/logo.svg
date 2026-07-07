@@ -1,14 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">Sınav Koleji inspired eagle TV logo</title>
-  <desc id="desc">An original blue eagle silhouette flying through a red television frame above Sınav Koleji text.</desc>
-  <rect width="512" height="512" rx="86" fill="#ffffff"/>
-  <path d="M153 55h248c19 0 34 15 34 34v245c0 19-15 34-34 34H111c-19 0-34-15-34-34V184h18v150c0 9 7 16 16 16h290c9 0 16-7 16-16V89c0-9-7-16-16-16H153z" fill="#ed1c24"/>
-  <path d="M61 91c58 68 132 99 220 94 45-3 82-18 111-45-25 45-68 79-129 101-55 19-108 21-160 6-29-9-52-24-68-46 17 6 35 10 54 11-29-13-50-35-63-66 21 14 43 24 67 29-27-21-38-49-32-84z" fill="#0054a6" opacity=".98"/>
-  <path d="M101 64c53 64 116 99 190 104-77-22-131-62-162-119 3 37 14 71 34 101-27-21-48-49-62-86z" fill="#0054a6"/>
-  <path d="M168 287c31 8 65 5 102-9-31 33-66 53-106 60-30 5-56 1-78-12 28-3 56-16 82-39z" fill="#0054a6"/>
-  <path d="M279 184c19-33 45-50 78-52-23 11-39 30-48 57z" fill="#0054a6"/>
-  <path d="M317 139c22-15 46-14 72 3-31-4-53 0-67 14z" fill="#0054a6"/>
-  <circle cx="345" cy="153" r="5" fill="#ffffff"/>
-  <path d="M91 415h19c1 15 6 22 15 22 8 0 12-5 12-14 0-6-2-11-6-15s-11-9-21-15c-13-8-23-16-29-25-6-8-9-19-9-32 0-15 5-27 15-36s23-14 39-14c29 0 45 18 48 53h-19c-2-14-7-21-16-21-7 0-11 5-11 14 0 5 2 10 6 14 4 4 11 9 21 15 14 8 24 17 30 26 6 9 9 20 9 34 0 16-5 29-16 38-10 9-24 14-41 14-32 0-50-20-55-58z" fill="#ed1c24" transform="scale(.78) translate(-58 153)"/>
-  <text x="256" y="463" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="62" fill="#ed1c24" letter-spacing="2">SINAV KOLEJİ</text>
+  <title id="title">Mersin İstek Okulları logo</title>
+  <desc id="desc">A white square logo with blue İSTEK and Mersin Okulları text plus a turquoise open book mark.</desc>
+  <rect width="512" height="512" rx="48" fill="#fff"/>
+  <path d="M236 167h8v178h-8z" fill="#1d6db6" opacity=".85"/>
+  <path d="M88 178c45 3 74 20 95 48-38-10-69-8-95 7z" fill="#38b8cf"/>
+  <path d="M222 178c-45 3-74 20-95 48 38-10 69-8 95 7z" fill="#38b8cf"/>
+  <path d="M139 155l18-18 18 18-18 17z" fill="#69c9d9"/>
+  <circle cx="76" cy="202" r="7" fill="#1d6db6"/>
+  <text x="77" y="302" font-family="Georgia, 'Times New Roman', serif" font-size="70" font-weight="700" fill="#075cab">İSTEK</text>
+  <text x="264" y="232" font-family="Georgia, 'Times New Roman', serif" font-size="55" fill="#075cab">MERSİN</text>
+  <text x="264" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="55" fill="#075cab">OKULLARI</text>
 </svg>

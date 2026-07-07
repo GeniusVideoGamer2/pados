@@ -1,4 +1,4 @@
-package com.sinavkoleji.turksattv;
+package web.browser.istekbrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -155,30 +155,30 @@ public class MainActivity extends Activity {
         controls.setBackground(makePanelBackground());
 
         Button previous = makeControlButton("‹");
-        previous.setContentDescription("Previous channel");
+        previous.setContentDescription("Go back");
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callWebControl("previousChannel");
+                webView.goBack();
             }
         });
 
         Button next = makeControlButton("›");
-        next.setContentDescription("Next channel");
+        next.setContentDescription("Go forward");
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callWebControl("nextChannel");
+                webView.goForward();
             }
         });
 
-        Button fullScreen = makeControlButton("Full");
+        Button fullScreen = makeControlButton("AI");
         fullScreen.setTextSize(13);
-        fullScreen.setContentDescription("Toggle player full screen");
+        fullScreen.setContentDescription("Open İstek AI page");
         fullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callWebControl("toggleFullscreen");
+                callWebControl("goToIstekAi");
             }
         });
 
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
 
     private void callWebControl(String controlName) {
         if (webView == null) return;
-        webView.evaluateJavascript("window.turksatPlayerControls && window.turksatPlayerControls." + controlName + " && window.turksatPlayerControls." + controlName + "();", null);
+        webView.evaluateJavascript("window.istekBrowser && window.istekBrowser." + controlName + " && window.istekBrowser." + controlName + "();", null);
     }
 
     private void adjustVolume(int direction) {

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.sinavkoleji.turksattv'
+    namespace 'web.browser.istekbrowser'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.sinavkoleji.turksattv'
+        applicationId 'web.browser.istekbrowser'
         minSdk 23
         targetSdk 35
         versionCode 1

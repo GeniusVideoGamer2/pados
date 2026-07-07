@@ -3,71 +3,42 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Türksat 4A Live TV Hub</title>
-    <meta name="description" content="A web TV interface for organizing Türksat 4A channels, importing legal IPTV playlists, and playing live HLS streams." />
+    <title>ISTEK BROWSER</title>
+    <meta name="description" content="ISTEK BROWSER is a glass-style multi-page web browser with Google search, website search, and an always-open ISTEK AI page." />
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Channel browser">
-        <header class="brand-card">
-          <img src="assets/logo.svg" alt="Sınav Koleji inspired eagle TV logo" class="brand-logo" />
-          <div><p class="eyebrow">Wi‑Fi IPTV Player</p><h1>Türksat 4A TV Hub</h1></div>
-        </header>
-        <section class="search-panel" aria-labelledby="search-title">
-          <h2 id="search-title">Find channels</h2>
-          <label class="sr-only" for="channel-search">Search by channel name, genre, or language</label>
-          <input id="channel-search" type="search" placeholder="Search TRT, ATV, Haber…" autocomplete="off" />
-          <div class="filter-row" role="list" aria-label="Channel category filters">
-            <button class="chip is-active" data-filter="all" type="button">All</button>
-            <button class="chip" data-filter="National" type="button">National</button>
-            <button class="chip" data-filter="News" type="button">News</button>
-            <button class="chip" data-filter="Sports" type="button">Sports</button>
-            <button class="chip" data-filter="Kids" type="button">Kids</button>
-            <button class="chip" data-filter="Local" type="button">Local</button>
+    <main class="browser-shell">
+      <section class="topbar" aria-label="Browser controls">
+        <div class="brand"><img src="assets/logo.svg" alt="Mersin İstek Okulları logo" /><strong>ISTEK BROWSER</strong></div>
+        <form id="address-form" class="address-form">
+          <label class="sr-only" for="address-input">Search Google or enter website address</label>
+          <input id="address-input" type="search" placeholder="Search Google or type a website address" autocomplete="off" />
+          <button class="glass-button" type="submit">Search</button>
+        </form>
+        <button id="new-tab-button" class="glass-button" type="button">+ Page</button>
+      </section>
+
+      <nav id="tab-strip" class="tab-strip" aria-label="Open pages"></nav>
+
+      <section class="browser-stage">
+        <aside class="start-panel">
+          <img class="start-logo" src="assets/logo.svg" alt="" />
+          <h1>İSTEK</h1>
+          <p>Search through websites, open pages, and keep İstek AI ready on the second page.</p>
+          <form id="hero-search-form" class="hero-search">
+            <input id="hero-search-input" type="search" placeholder="Search Google" />
+            <button class="glass-button" type="submit">Google Search</button>
+          </form>
+          <div class="quick-actions">
+            <button class="glass-button" type="button" data-quick="https://www.google.com/search?q=İstek+Okulları">İstek Search</button>
+            <button class="glass-button" type="button" data-quick="https://geniusvideogamer2.github.io/pados/">İstek AI</button>
           </div>
-        </section>
-        <section class="channel-list-panel" aria-labelledby="channels-title">
-          <div class="panel-heading"><h2 id="channels-title">Channels</h2><span id="channel-count">0</span></div>
-          <div id="channel-list" class="channel-list" role="listbox" aria-label="Türksat channel list"></div>
-        </section>
-      </aside>
-      <main class="main-stage">
-        <section class="hero">
-          <div>
-            <p class="eyebrow">Live stream media center</p>
-            <h2>Watch legal live TV streams in one middle player.</h2>
-            <p>Türksat 4A is a satellite platform. Phones, tablets, and browsers cannot receive satellite TV directly from Wi‑Fi or Bluetooth, but this app can play official web/HLS streams, IPTV playlists, or streams from a tuner on your local network.</p>
-          </div>
-          <div class="signal-card" aria-label="Connection status"><div class="signal-ring"><span></span></div><strong id="signal-label">Ready</strong><small>Wi‑Fi / LAN stream input</small></div>
-        </section>
-        <section class="player-card" aria-labelledby="player-title">
-          <div class="player-frame">
-            <video id="tv-player" controls playsinline poster="assets/logo.svg"></video>
-            <div id="player-empty" class="player-empty"><img src="assets/logo.svg" alt="" /><p>Select a channel, paste an HLS/M3U8 URL, or import a legal playlist.</p></div>
-            <div class="liquid-controls liquid-channel-controls" aria-label="Channel controls">
-              <button id="previous-channel-button" class="liquid-button" type="button" aria-label="Previous channel">‹</button>
-              <button id="next-channel-button" class="liquid-button" type="button" aria-label="Next channel">›</button>
-            </div>
-            <div class="liquid-controls liquid-volume-controls" aria-label="Volume controls">
-              <button id="volume-up-button" class="liquid-button" type="button" aria-label="Volume up">+</button>
-              <button id="volume-down-button" class="liquid-button" type="button" aria-label="Volume down">−</button>
-            </div>
-            <button id="fullscreen-button" class="liquid-button fullscreen-button" type="button" aria-label="Toggle full screen">⛶ Full screen</button>
-          </div>
-          <div class="now-playing"><div><p class="eyebrow">Now playing</p><h3 id="player-title">No channel selected</h3><p id="channel-meta">Choose a channel from the list to start.</p></div><button id="favorite-button" type="button" class="ghost-button" aria-pressed="false">☆ Favorite</button></div>
-        </section>
-        <section class="tools-grid" aria-label="Stream tools">
-          <form id="stream-form" class="tool-card"><h3>Play a live stream URL</h3><p>Paste an official HLS (.m3u8), MP4, or browser-supported stream URL.</p><label for="stream-name">Channel name</label><input id="stream-name" type="text" placeholder="My Türksat Stream" /><label for="stream-url">Stream URL</label><input id="stream-url" type="url" placeholder="https://example.com/live/channel.m3u8" required /><button type="submit">Play stream</button></form>
-          <form id="playlist-form" class="tool-card"><h3>Import M3U playlist</h3><p>Add legal IPTV channels from a local M3U file exported by your provider or tuner.</p><label for="playlist-file">M3U playlist</label><input id="playlist-file" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/vnd.apple.mpegurl" /><button type="submit">Import playlist</button></form>
-          <div class="tool-card internet-card"><h3>Add Turkish internet TV</h3><p>Fetches public Turkey IPTV streams from IPTV-Org and merges them into the channel list.</p><button id="remote-playlist-button" type="button">Load public streams</button><small id="remote-playlist-status">Source: iptv-org Turkey public playlist</small></div>
-          <div class="tool-card connection-card"><h3>Wi‑Fi / Bluetooth notes</h3><ul><li>Wi‑Fi can carry IPTV streams from official broadcasters, apps, or LAN tuners.</li><li>Bluetooth is for nearby device pairing and cannot carry Türksat satellite broadcast signals.</li><li>To receive every satellite channel, connect a DVB‑S2 dish/tuner and expose legal streams over LAN.</li></ul></div>
-        </section>
-      </main>
-    </div>
-    <template id="channel-template"><button class="channel-item" type="button" role="option"><span class="channel-logo" aria-hidden="true"></span><span class="channel-copy"><strong></strong><small></small></span><span class="channel-badge"></span></button></template>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1" defer></script>
+        </aside>
+        <iframe id="browser-frame" title="Current web page" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"></iframe>
+      </section>
+    </main>
     <script src="app.js" defer></script>
   </body>
 </html>
