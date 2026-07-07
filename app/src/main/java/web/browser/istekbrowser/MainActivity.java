@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -31,10 +32,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
@@ -43,6 +56,7 @@ public class MainActivity extends Activity {
     private FrameLayout rootLayout;
     private FrameLayout appDrawer;
     private AudioManager audioManager;
+    private final ExecutorService geminiExecutor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +96,8 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+
+        webView.addJavascriptInterface(new GeminiBridge(), "IstekGemini");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -195,6 +211,84 @@ public class MainActivity extends Activity {
     private void callWebControl(String controlName) {
         if (webView == null) return;
         webView.evaluateJavascript("window.istekBrowser && window.istekBrowser." + controlName + " && window.istekBrowser." + controlName + "();", null);
+    }
+
+    private class GeminiBridge {
+        @JavascriptInterface
+        public void ask(final String question) {
+            geminiExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    sendGeminiAnswer(generateGeminiAnswer(question));
+                }
+            });
+        }
+    }
+
+    private String generateGeminiAnswer(String question) {
+        String apiKey = BuildConfig.GEMINI_API_KEY;
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            return "Gemini API key is not configured. Add GEMINI_API_KEY as a Gradle property or environment variable in the APK build.";
+        }
+
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + Uri.encode(apiKey));
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setConnectTimeout(20000);
+            connection.setReadTimeout(30000);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            JSONObject textPart = new JSONObject().put("text", question);
+            JSONObject content = new JSONObject().put("parts", new JSONArray().put(textPart));
+            JSONObject body = new JSONObject().put("contents", new JSONArray().put(content));
+            byte[] payload = body.toString().getBytes(StandardCharsets.UTF_8);
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(payload);
+            outputStream.close();
+
+            InputStream responseStream = connection.getResponseCode() >= 400 ? connection.getErrorStream() : connection.getInputStream();
+            String responseBody = readStream(responseStream);
+            if (connection.getResponseCode() >= 400) {
+                return "Gemini error: " + responseBody;
+            }
+
+            JSONObject response = new JSONObject(responseBody);
+            JSONArray candidates = response.optJSONArray("candidates");
+            if (candidates == null || candidates.length() == 0) return "Gemini returned no answer.";
+            JSONObject firstCandidate = candidates.getJSONObject(0);
+            JSONArray parts = firstCandidate.getJSONObject("content").optJSONArray("parts");
+            if (parts == null || parts.length() == 0) return "Gemini returned no text.";
+            return parts.getJSONObject(0).optString("text", "Gemini returned an empty answer.");
+        } catch (Exception exception) {
+            return "Gemini request failed: " + exception.getMessage();
+        } finally {
+            if (connection != null) connection.disconnect();
+        }
+    }
+
+    private String readStream(InputStream inputStream) throws Exception {
+        if (inputStream == null) return "";
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        StringBuilder builder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
+        }
+        reader.close();
+        return builder.toString();
+    }
+
+    private void sendGeminiAnswer(final String answer) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (webView == null) return;
+                webView.evaluateJavascript("window.receiveGeminiAnswer && window.receiveGeminiAnswer(" + JSONObject.quote(answer) + ");", null);
+            }
+        });
     }
 
     private void adjustVolume(int direction) {
@@ -395,6 +489,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         if (webView != null) {
+            geminiExecutor.shutdownNow();
             webView.destroy();
             webView = null;
         }

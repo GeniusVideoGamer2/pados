@@ -3,6 +3,10 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        buildConfig true
+    }
+
     namespace 'web.browser.istekbrowser'
     compileSdk 35
 
@@ -12,5 +16,12 @@ android {
         targetSdk 35
         versionCode 1
         versionName '1.0.0'
+        buildConfigField 'String', 'GEMINI_API_KEY', '"' + (project.findProperty('GEMINI_API_KEY') ?: System.getenv('GEMINI_API_KEY') ?: System.getenv('GOOGLE_AI_API_KEY') ?: '') + '"'
     }
+}
+
+
+dependencies {
+    // Google AI Edge SDK for Gemini
+    implementation 'com.google.ai.client.generativeai:generativeai:0.9.0'
 }

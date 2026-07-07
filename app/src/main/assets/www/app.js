@@ -14,6 +14,10 @@ const addressInput = document.querySelector('#address-input');
 const heroSearchForm = document.querySelector('#hero-search-form');
 const heroSearchInput = document.querySelector('#hero-search-input');
 const newTabButton = document.querySelector('#new-tab-button');
+const searchButton = document.querySelector('#search-button');
+const geminiModeButton = document.querySelector('#gemini-mode-button');
+const geminiAnswer = document.querySelector('#gemini-answer');
+let geminiMode = false;
 
 function createSearchUrl(value) {
   const text = value.trim();
@@ -82,8 +86,39 @@ function closeTab(id) {
   else renderTabs();
 }
 
+async function askGemini(question) {
+  const prompt = question.trim();
+  if (!prompt) {
+    geminiAnswer.textContent = 'Type a question for Gemini AI.';
+    return;
+  }
+  geminiAnswer.textContent = 'Gemini AI is thinking…';
+  if (window.IstekGemini?.ask) {
+    window.IstekGemini.ask(prompt);
+    return;
+  }
+  geminiAnswer.textContent = 'Gemini AI is available inside the Android app when GEMINI_API_KEY is configured. Searching Google instead.';
+  navigateActiveTab(createSearchUrl(prompt));
+}
+
+function setGeminiMode(enabled) {
+  geminiMode = enabled;
+  geminiModeButton.setAttribute('aria-pressed', String(enabled));
+  geminiModeButton.classList.toggle('is-active', enabled);
+  searchButton.textContent = enabled ? 'Ask Gemini' : 'Search Google';
+  addressInput.placeholder = enabled ? 'Ask Gemini AI anything' : 'Search Google or type a website address';
+}
+
+window.receiveGeminiAnswer = (answer) => {
+  geminiAnswer.textContent = answer || 'Gemini AI returned an empty answer.';
+};
+
 addressForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  if (geminiMode) {
+    askGemini(addressInput.value);
+    return;
+  }
   navigateActiveTab(createSearchUrl(addressInput.value));
 });
 
@@ -92,6 +127,7 @@ heroSearchForm.addEventListener('submit', (event) => {
   navigateActiveTab(createSearchUrl(heroSearchInput.value));
 });
 
+geminiModeButton.addEventListener('click', () => setGeminiMode(!geminiMode));
 newTabButton.addEventListener('click', () => addTab(HOME_URL));
 document.querySelectorAll('[data-quick]').forEach((button) => button.addEventListener('click', () => navigateActiveTab(button.dataset.quick)));
 
