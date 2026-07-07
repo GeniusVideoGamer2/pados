@@ -1,4 +1,4 @@
-const HOME_URL = 'https://www.google.com/search?q=ISTEK';
+const HOME_URL = 'https://www.google.com/';
 const ISTEK_AI_URL = 'https://geniusvideogamer2.github.io/pados/';
 
 const tabs = [
@@ -31,7 +31,7 @@ function getActiveTab() {
 
 function titleForUrl(url) {
   if (url === ISTEK_AI_URL) return 'İstek AI';
-  if (url.includes('google.com/search')) return 'Google';
+  if (url === HOME_URL || url.includes('google.com/search')) return 'Google';
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return 'Page'; }
 }
 
@@ -92,7 +92,7 @@ heroSearchForm.addEventListener('submit', (event) => {
   navigateActiveTab(createSearchUrl(heroSearchInput.value));
 });
 
-newTabButton.addEventListener('click', () => addTab('https://www.google.com/search?q=ISTEK'));
+newTabButton.addEventListener('click', () => addTab(HOME_URL));
 document.querySelectorAll('[data-quick]').forEach((button) => button.addEventListener('click', () => navigateActiveTab(button.dataset.quick)));
 
 window.istekBrowser = { newPage: addTab, goToIstekAi: () => activateTab(tabs[1].id), search: (query) => navigateActiveTab(createSearchUrl(query)) };
