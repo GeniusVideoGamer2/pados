@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yeni Sekme</title>
+    <title>Chrome Home</title>
     <style>
       body {
         background: #333C4D;
@@ -46,10 +46,20 @@
 
       .ntp-logo {
         margin: 0 0 20px;
-        color: rgba(170, 199, 255, 1.00);
-        font-size: clamp(52px, 14vw, 112px);
-        font-weight: 800;
-        letter-spacing: 0.05em;
+        color: rgba(232, 234, 237, 1.00);
+        font-size: clamp(44px, 10vw, 88px);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .chrome-mark {
+        display: block;
+        width: clamp(86px, 18vw, 126px);
+        height: clamp(86px, 18vw, 126px);
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, #4285f4 0 28%, #fff 29% 36%, transparent 37%), conic-gradient(#ea4335 0 33%, #fbbc05 0 66%, #34a853 0 82%, #4285f4 0 100%);
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
       }
 
       .ntp-search {
@@ -93,14 +103,15 @@
   <body style="background-color: rgb(51, 60, 77);">
     <iframe id="backgroundImage" src=""></iframe>
     <ntp-app realbox-can-show-secondary-side="" modules-loaded-status_="0" style="--ntp-logo-color: rgba(170, 199, 255, 1.00); --color-new-tab-page-attribution-foreground: rgba(232, 234, 237, 1.00); --color-new-tab-page-most-visited-foreground: rgba(232, 234, 237, 1.00);"></ntp-app>
-    <main class="ntp-shell" aria-label="Yeni sekme sayfası">
+    <main class="ntp-shell" aria-label="Chrome home page">
       <section class="ntp-card">
-        <h1 class="ntp-logo">İSTEK</h1>
+        <span class="chrome-mark" aria-hidden="true"></span>
+        <h1 class="ntp-logo">Google Chrome</h1>
         <form class="ntp-search" id="ntp-search-form">
-          <input id="ntp-search-input" type="search" placeholder="Google'da ara veya web adresi yaz" autocomplete="off" />
-          <button type="submit">Ara</button>
+          <input id="ntp-search-input" type="search" placeholder="Search Google or type a URL" autocomplete="off" />
+          <button type="submit">Search Google</button>
         </form>
-        <p class="ntp-note">Bu yerel Yeni Sekme sayfası artık Google ana sayfası yerine tüm yeni sayfalarda açılır. İkinci sayfa İstek AI olarak kalır.</p>
+        <p class="ntp-note">This Chrome-style start page opens first and on every new tab. Searches go through Google, website URLs open normally, and the separate İstek AI page is left unchanged.</p>
       </section>
     </main>
     <script>

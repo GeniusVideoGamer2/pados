@@ -2,7 +2,7 @@ const HOME_URL = 'new_tab.html';
 const ISTEK_AI_URL = 'https://geniusvideogamer2.github.io/pados/';
 
 const tabs = [
-  { id: crypto.randomUUID(), title: 'Yeni Sekme', url: HOME_URL, locked: false },
+  { id: crypto.randomUUID(), title: 'Chrome Home', url: HOME_URL, locked: false },
   { id: crypto.randomUUID(), title: 'İstek AI', url: ISTEK_AI_URL, locked: true }
 ];
 
@@ -35,8 +35,9 @@ function getActiveTab() {
 
 function titleForUrl(url) {
   if (url === ISTEK_AI_URL) return 'İstek AI';
-  if (url === HOME_URL || url.endsWith('/new_tab.html')) return 'Yeni Sekme';
-  if (url.includes('google.com/search')) return 'Google';
+  if (url === HOME_URL || url.endsWith('/new_tab.html')) return 'Chrome Home';
+  if (url === 'https://www.google.com/' || url === 'https://google.com/') return 'Google Home';
+  if (url.includes('google.com/search')) return 'Google Search';
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return 'Page'; }
 }
 
@@ -107,7 +108,7 @@ function setGeminiMode(enabled) {
   geminiModeButton.setAttribute('aria-pressed', String(enabled));
   geminiModeButton.classList.toggle('is-active', enabled);
   searchButton.textContent = enabled ? 'Ask Gemini' : 'Search Google';
-  addressInput.placeholder = enabled ? 'Ask Gemini AI anything' : 'Search Google or type a website address';
+  addressInput.placeholder = enabled ? 'Ask Gemini AI anything' : 'Search Google or type a URL';
 }
 
 window.receiveGeminiAnswer = (answer) => {
