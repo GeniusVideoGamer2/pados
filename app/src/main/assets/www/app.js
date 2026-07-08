@@ -1,8 +1,8 @@
-const HOME_URL = 'https://www.google.com/';
+const HOME_URL = 'new_tab.html';
 const ISTEK_AI_URL = 'https://geniusvideogamer2.github.io/pados/';
 
 const tabs = [
-  { id: crypto.randomUUID(), title: 'Google', url: HOME_URL, locked: false },
+  { id: crypto.randomUUID(), title: 'Yeni Sekme', url: HOME_URL, locked: false },
   { id: crypto.randomUUID(), title: 'İstek AI', url: ISTEK_AI_URL, locked: true }
 ];
 
@@ -35,7 +35,8 @@ function getActiveTab() {
 
 function titleForUrl(url) {
   if (url === ISTEK_AI_URL) return 'İstek AI';
-  if (url === HOME_URL || url.includes('google.com/search')) return 'Google';
+  if (url === HOME_URL || url.endsWith('/new_tab.html')) return 'Yeni Sekme';
+  if (url.includes('google.com/search')) return 'Google';
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return 'Page'; }
 }
 
